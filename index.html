@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quilt Explorer — Your magic kaleidoscope for quilt design</title>
+  <meta name="description" content="Design beautiful quilts in minutes and purchase patterns with complete instructions.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Nunito', sans-serif; }
+
+    .bg-pink-section  { background-color: #f8ccd8; }
+    .bg-sage-section  { background-color: #e8edc0; }
+    .text-pom         { color: #c1226a; }
+    .text-orange-brand{ color: #e07535; }
+
+    .btn-orange {
+      background-color: #e07535;
+      color: white;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      transition: opacity 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-orange:hover { opacity: 0.88; }
+    .btn-orange-lg { font-size: 1.2rem; padding: 1rem 2.5rem; }
+
+    .btn-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #d2e8f7;
+      border: 2px solid #4a7fb5;
+      color: #4a7fb5;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border-radius: 9999px;
+      padding: 0.5rem 1.25rem;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .btn-social:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      transform: translateY(-1px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 9999px;
+      padding: 0.35rem 1rem 0.35rem 0.4rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #3a3f4a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .badge-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 9999px;
+      background-color: #b2cc2c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .shadow-pop  { box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
+    .shadow-soft { box-shadow: 0 2px 8px rgba(0,0,0,0.10); }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-2deg); }
+      50%       { transform: rotate(2deg); }
+    }
+    .wiggle       { animation: wiggle 0.6s ease-in-out infinite; }
+    .wiggle:hover { animation: none; transform: none; }
+
+    /* Carousel */
+    .carousel-wrapper { overflow: hidden; border-radius: 1rem; }
+    .carousel-track   { display: flex; transition: transform 0.4s ease; }
+    .carousel-slide   { flex: 0 0 100%; }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 9999px;
+      background-color: #c1226a;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    .carousel-btn:hover { background-color: #a41c5a; }
+    .carousel-btn-prev  { left:  -1.4rem; }
+    .carousel-btn-next  { right: -1.4rem; }
+  </style>
+</head>
+<body class="min-h-screen bg-white">
+
+  <!-- ═══════════════════════════════ NAVBAR ═══════════════════════════════ -->
+  <nav class="sticky top-0 z-50" style="background-color:#b2cc2c;">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+      <a href="/">
+        <img src="assets/logo.svg" alt="Quilt Explorer" class="h-11 w-auto">
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-bold" style="color:#3a3f4a;">
+        <a href="#"                           class="hover:text-pink-700 transition-colors">Home</a>
+        <a href="https://app.quiltexplorer.com" class="hover:text-pink-700 transition-colors">Design</a>
+        <a href="#faq"                        class="hover:text-pink-700 transition-colors">FAQ</a>
+        <a href="#tutorials"                  class="hover:text-pink-700 transition-colors">Tutorials</a>
+        <a href="#about"                      class="hover:text-pink-700 transition-colors">About</a>
+        <a href="#contact"                    class="hover:text-pink-700 transition-colors">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════ SECTION 1: HERO (pink) ═══════════════ -->
+  <section class="bg-pink-section">
+    <div class="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
+
+      <img src="assets/logo.svg"
+           alt="Quilt Explorer"
+           class="mx-auto h-40 w-auto">
+
+      <h1 class="mt-8 text-4xl md:text-5xl font-extrabold text-pom leading-tight">
+        Your magic kaleidoscope for quilt design
+      </h1>
+      <p class="mt-6 text-lg md:text-xl" style="color:rgba(58,63,74,0.8);">
+        It's so much fun to just keep clicking and seeing a new design with every single click!
+      </p>
+      <p class="mt-3 text-lg md:text-xl" style="color:rgba(58,63,74,0.8);">
+        Within minutes, you can create a fabulous quilt design and purchase a pattern with complete instructions!
+      </p>
+
+      <figure class="mt-10 rounded-2xl overflow-hidden shadow-pop">
+        <img src="assets/qe-quilts-row.png"
+             alt="Five colorful quilt patterns displayed in a row"
+             class="w-full h-auto">
+      </figure>
+
+      <blockquote class="mt-8 text-xl italic text-pom">
+        "Wow! Even I can do this"
+        <footer class="not-italic text-base mt-1" style="color:rgba(58,63,74,0.7);">
+          — Maryjane Morris, Brisbane, Australia
+        </footer>
+      </blockquote>
+
+      <div class="mt-10">
+        <a href="https://app.quiltexplorer.com">
+          <button class="btn-orange btn-orange-lg wiggle">✦ Start clicking!</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECTION 2: WHY (sage) ════════════════ -->
+  <section class="bg-sage-section">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-24">
+      <h2 class="text-4xl md:text-6xl font-extrabold text-center text-pom mb-10">
+        Why Quilt Explorer?
+      </h2>
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div class="space-y-5 text-lg" style="color:rgba(58,63,74,0.85);">
+          <p>
+            If you can't face the thought of learning complicated new software for designing your quilts,
+            <span class="font-semibold text-pom"> Quilt Explorer is for you!</span>
+          </p>
+          <p>
+            The simplicity of the design process and the immediate visual feedback makes Quilt Explorer
+            a delight to use.
+          </p>
+          <p class="text-2xl font-extrabold text-orange-brand">So easy! Such fun!</p>
+        </div>
+        <div>
+          <a href="https://www.youtube.com/watch?v=qY0rw3gkEUo"
+             target="_blank" rel="noreferrer"
+             class="block rounded-2xl overflow-hidden shadow-pop relative aspect-video">
+            <img src="https://img.youtube.com/vi/qY0rw3gkEUo/maxresdefault.jpg"
+                 alt="Watch Quilt Explorer demo on YouTube"
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="flex items-center gap-3 bg-black/70 rounded-xl px-5 py-3">
+                <svg class="w-10 h-10 text-red-500" viewBox="0 0 24 24" fill="currentColor" style="color:#ff0000;">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 0-3.4-3.4C14.68 3 12 3 12 3s-2.68 0-4.19.29a4.83 4.83 0 0 0-3.4 3.4C4 8.2 4 12 4 12s0 3.8.41 5.31a4.83 4.83 0 0 0 3.4 3.4C9.32 21 12 21 12 21s2.68 0 4.19-.29a4.83 4.83 0 0 0 3.4-3.4C20 15.8 20 12 20 12s0-3.8-.41-5.31zM10 15V9l5 3-5 3z"/>
+                </svg>
+                <span class="text-white font-bold text-sm">Watch on YouTube</span>
+              </div>
+            </div>
+          </a>
+          <div class="mt-6 text-center">
+            <a href="https://app.quiltexplorer.com">
+              <button class="btn-orange">✦ Click here</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECTION 3: PATTERNS (pink) ═══════════ -->
+  <section class="bg-pink-section">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <h2 class="text-4xl md:text-6xl font-extrabold text-center text-pom">
+        Brilliant, value-packed patterns
+      </h2>
+      <p class="mt-4 text-center text-lg max-w-2xl mx-auto" style="color:rgba(58,63,74,0.8);">
+        Quilt Explorer patterns explain <strong>EVERYTHING</strong> you need to make your quilt top.
+      </p>
+
+      <ul class="mt-8 flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
+        <li class="badge"><span class="badge-icon">🖼</span> Full color images</li>
+        <li class="badge"><span class="badge-icon">✂</span> Kona fabric yardage</li>
+        <li class="badge"><span class="badge-icon">✂</span> Cutting instructions</li>
+        <li class="badge"><span class="badge-icon">✦</span> Piecing &amp; assembly</li>
+        <li class="badge"><span class="badge-icon">📖</span> Helpful tutorials</li>
+      </ul>
+
+      <!-- Carousel -->
+      <div class="mt-12 max-w-3xl mx-auto relative px-10">
+        <div class="carousel-wrapper shadow-pop">
+          <div class="carousel-track" id="carousel-track">
+
+            <div class="carousel-slide">
+              <figure class="bg-white p-3 flex flex-col" style="height:32rem;">
+                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                  <img src="assets/qe-pattern-1-quilt-top.png" alt="The completed quilt top"
+                       class="max-h-full max-w-full object-contain rounded-lg">
+                </div>
+                <figcaption class="text-center text-sm py-3 font-semibold" style="color:rgba(58,63,74,0.7);">
+                  The completed quilt top
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="carousel-slide">
+              <figure class="bg-white p-3 flex flex-col" style="height:32rem;">
+                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                  <img src="assets/qe-pattern-2-stats.png" alt="Quilt stats &amp; glossary"
+                       class="max-h-full max-w-full object-contain rounded-lg">
+                </div>
+                <figcaption class="text-center text-sm py-3 font-semibold" style="color:rgba(58,63,74,0.7);">
+                  Quilt stats &amp; glossary
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="carousel-slide">
+              <figure class="bg-white p-3 flex flex-col" style="height:32rem;">
+                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                  <img src="assets/qe-pattern-3-yardage.png" alt="Fabric yardage in your Kona colors"
+                       class="max-h-full max-w-full object-contain rounded-lg">
+                </div>
+                <figcaption class="text-center text-sm py-3 font-semibold" style="color:rgba(58,63,74,0.7);">
+                  Fabric yardage in your Kona colors
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="carousel-slide">
+              <figure class="bg-white p-3 flex flex-col" style="height:32rem;">
+                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                  <img src="assets/qe-pattern-4-units.png" alt="Unit construction"
+                       class="max-h-full max-w-full object-contain rounded-lg">
+                </div>
+                <figcaption class="text-center text-sm py-3 font-semibold" style="color:rgba(58,63,74,0.7);">
+                  Unit construction
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="carousel-slide">
+              <figure class="bg-white p-3 flex flex-col" style="height:32rem;">
+                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                  <img src="assets/qe-pattern-5-blocks.png" alt="Block construction"
+                       class="max-h-full max-w-full object-contain rounded-lg">
+                </div>
+                <figcaption class="text-center text-sm py-3 font-semibold" style="color:rgba(58,63,74,0.7);">
+                  Block construction
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="carousel-slide">
+              <figure class="bg-white p-3 flex flex-col" style="height:32rem;">
+                <div class="flex-1 flex items-center justify-center overflow-hidden">
+                  <img src="assets/qe-pattern-6-assembly.png" alt="Assembling the quilt top"
+                       class="max-h-full max-w-full object-contain rounded-lg">
+                </div>
+                <figcaption class="text-center text-sm py-3 font-semibold" style="color:rgba(58,63,74,0.7);">
+                  Assembling the quilt top
+                </figcaption>
+              </figure>
+            </div>
+
+          </div><!-- /carousel-track -->
+        </div><!-- /carousel-wrapper -->
+
+        <button class="carousel-btn carousel-btn-prev" id="carousel-prev" aria-label="Previous">&#8592;</button>
+        <button class="carousel-btn carousel-btn-next" id="carousel-next" aria-label="Next">&#8594;</button>
+      </div><!-- /carousel outer -->
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ SECTION 4: COMMUNITY (sage) ══════════ -->
+  <section id="contact" class="bg-sage-section">
+    <div class="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
+      <h2 class="text-4xl md:text-6xl font-extrabold text-pom">
+        Be part of the Quilt Explorer community
+      </h2>
+      <p class="mt-4 text-lg" style="color:rgba(58,63,74,0.8);">
+        Find up-to-date information and gorgeous new designs in your social media feeds.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-3 mt-10">
+        <a href="https://instagram.com/quiltexplorerdotcom"
+           target="_blank" rel="noreferrer" class="btn-social">
+          <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          Instagram
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=615733481710466&sk=about"
+           target="_blank" rel="noreferrer" class="btn-social">
+          <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+          Facebook Page
+        </a>
+        <a href="https://www.facebook.com/groups/2438672756618317"
+           target="_blank" rel="noreferrer" class="btn-social">
+          <svg class="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Community Group
+        </a>
+      </div>
+
+      <p class="mt-10 max-w-2xl mx-auto" style="color:rgba(58,63,74,0.8);">
+        Connect with other Quilt Explorer users in the Facebook community group.
+        Share your designs and see what others have been creating.
+      </p>
+
+      <div class="mt-10">
+        <a href="https://app.quiltexplorer.com">
+          <button class="btn-orange btn-orange-lg">✦ Start designing now</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ════════════════════════════════ -->
+  <footer style="background-color:#343942; color:white;">
+    <div class="max-w-6xl mx-auto px-6 py-8 text-center text-sm">
+      © 2026 Quilt Explorer. Your magic kaleidoscope for quilt design.
+    </div>
+  </footer>
+
+  <script>
+    let current = 0;
+    const track = document.getElementById('carousel-track');
+    const total = track.querySelectorAll('.carousel-slide').length;
+
+    function goTo(n) {
+      current = ((n % total) + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+    }
+
+    document.getElementById('carousel-prev').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('carousel-next').addEventListener('click', () => goTo(current + 1));
+  </script>
+</body>
+</html>
